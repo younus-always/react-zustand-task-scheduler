@@ -9,7 +9,7 @@ const Navber = ({ timer, showModal }) => {
                         <span className="font-bold text-xl ml-px">anner</span>
                   </div>
                   <div className="flex items-center justify-center gap-4">
-                        <h3 className="text-xl font-semibold">{timer}</h3>
+                        <h3 className="text-xl font-semibold hidden md:block">{timer}</h3>
                         <DatePicker />
                         <button onClick={showModal} className="bg-gradient-to-br from-blue-600 via-violet-500 to-blue-600 text-white flex items-center justify-center gap-1 font-medium py-2 px-3 text-xs rounded-md cursor-pointer hover:scale-105 transition duration-300 focus:shadow-lg">
                               <Plus className="w-4 h-4" />

@@ -3,15 +3,27 @@ import { useEffect, useState } from "react";
 import Navber from "./components/Navber";
 import Footer from "./components/Footer";
 import TaskContainer from "./components/TaskContainer";
+import { usePlanner } from "./store/usePlanner";
 
 export const App = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [timer, setTimer] = useState(new Date().toLocaleTimeString())
+  const { tasks, addTask } = usePlanner()
+
+  const highestTasks = tasks.filter((item) => item.priority === "highest")
+  const mediumTasks = tasks.filter((item) => item.priority === "medium")
+  const lowestTasks = tasks.filter((item) => item.priority === "lowest")
+
+  const createTask = (value) => {
+    value.status = "pending"
+    addTask(value)
+    // setOpen(false)
+  }
 
   const showModal = () => {
     setOpen(true)
-    // setLoading(true)
+    setLoading(true)
     setTimeout(() => {
       setLoading(false)
     }, 2000)
@@ -20,24 +32,21 @@ export const App = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setTimer(new Date().toLocaleTimeString())
-    }, 1000);
+    }, 800);
     return () => clearInterval(interval);
   }, [])
 
-  const createTask = (value) => {
-    console.log(value)
-  }
 
   return (
     <div className="animate__animated animate__fadeIn bg-gray-200 min-h-screen overflow-hidden">
       <Navber timer={timer} showModal={showModal} />
       <section className="w-full fixed left-0 top-16 h-[calc(100%-128px)] overflow-y-visible overflow-x-auto grid lg:grid-cols-3 gap-5 p-6">
         {/* Highest box */}
-        <TaskContainer badgeText="Highest" />
+        <TaskContainer badgeText="Highest" highestTasks={highestTasks} showModal={showModal} />
         {/* Medium box */}
-        <TaskContainer badgeText="Medium" />
+        <TaskContainer badgeText="Medium" mediumTasks={mediumTasks} showModal={showModal} />
         {/* Lowest box */}
-        <TaskContainer badgeText="Lowest" />
+        <TaskContainer badgeText="Lowest" lowestTasks={lowestTasks} showModal={showModal} />
       </section>
       <Footer />
 
