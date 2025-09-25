@@ -17,8 +17,10 @@ export const App = () => {
 
   const createTask = (value) => {
     value.status = "pending"
+    value.id = Date.now()
+    value.createdAt = new Date()
     addTask(value)
-    // setOpen(false)
+    setOpen(false)
   }
 
   const showModal = () => {
